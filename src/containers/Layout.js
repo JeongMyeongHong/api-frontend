@@ -26,8 +26,10 @@ export default function Layout({children}){
 
 const Table = styled.table`
     border : 1px solid black;
-    width : 500px;
+    width : 700px;
     height : 100px;
+    margin : auto;
+
 `
 const Tr = styled.tr`
     border : 1px dotted black;
