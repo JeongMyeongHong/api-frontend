@@ -15,6 +15,6 @@ export default function App() {
         { path: "calc", element: < Calc /> },
         { path: "grade", element: < Grade /> },
         { path: "login", element: < Login /> },
-        { path: "counter", element: <Counter/> }
+        { path: "counter", element: < Counter/> }
     ]);
 }
