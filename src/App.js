@@ -6,6 +6,7 @@ import Grade from "./components/Grade";
 import Home from "./pages/Home";
 import Login from "./components/Login";
 import Counter from "./components/Counter";
+import Sort from "./components/Sort";
 
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         { path: "calc", element: < Calc /> },
         { path: "grade", element: < Grade /> },
         { path: "login", element: < Login /> },
-        { path: "counter", element: < Counter/> }
+        { path: "counter", element: < Counter/> },
+        { path: "sort", element: < Sort/> }
     ]);
 }

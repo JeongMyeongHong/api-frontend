@@ -1,70 +1,46 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import Layout from '../containers/Layout';
+import { memberBmi } from '../api'
 export default function Bmi() {
 
-    const [inputs, setInputs] = useState(
-        {name : '', height : 0.0, weight : 0.0}
-    )
-    const {name, height, weight} = inputs
+    const [inputs, setInputs] = useState({})
+    const { name, height, weight } = inputs //구조분해할당
+    const [result, setResult] = useState(``)
 
-    //const [inputs, setInputs] = useState({})
-    //const {name, height, weight} = inputs//Object Destructuring 160p
-
-
-    const handleChange = (e) => {
-        e.preventDefault()
-        const {value, name} = e.target
-        setInputs({
-            ...inputs,//155p
-            [name]: value
-        })
+    const onChange = (e) => {
+        e.preventDefault() //Default를 막는다.(바닐라스크립트가 디폴트다.)
+                            //그래서 이게 없으면 바닐라스크립트로써 먼저 인식을 하게 된다.
+                            //우리는 리액트 라이브러리를 원하므로 해준다
+        const { value, name } = e.target
+        setInputs({ ...inputs, [name]: value })//155p 
     }
 
-    const handleClick = (e) =>{
+    const onClick = async (e) => {
         e.preventDefault()
-        const bmiRequest = {name, weight, height}
-        alert(`사용자 이름 : ${JSON.stringify(bmiRequest)}`)
-        
-        /*axios.get(`http://localhost:8080/member/bmi/hong/180.5/80.5`)
-            .then((res) =>{
-                alert(`답장이 도착했습니다 [내용] ${JSON.stringify(res.data)}`)
-            })
-            .catch((error) =>{
-                alert(`응답이 없습니다 [내용] ${error}`)
-            })*/
-
+        await memberBmi({ name, weight, height }).then(res => { setResult(res.data) })
+                            .catch(err => { console.log(`에러 발생 :  ${err}`) })
     }
 
-
+    //return 이하 부분을 jsx라고 한다.
     return (<Layout>
         <form action="">
-        <h1>BMI</h1>
-        <div>
-            <label htmlFor="">이름</label>
-            <input type="text" name="name" onChange={handleChange}  /><br />
+            <h1>BMI</h1>
+            <div>
+                <label htmlFor="">이름</label>
+                <input type="text" name="name" onChange={onChange} /><br />
 
-            <label htmlFor="">키</label>
-            <input type="text" name ="height" onChange={handleChange} /><br />
+                <label htmlFor="">키</label>
+                <input type="text" name="height" onChange={onChange} /><br />
 
-            <label htmlFor="">몸무게</label>
-            <input type="text" name ="weight" onChange={handleChange} /><br />
+                <label htmlFor="">몸무게</label>
+                <input type="text" name="weight" onChange={onChange} /><br />
 
-            <div>이름 : {inputs[`name`]} 키 : {inputs[`height`]} 몸무게 : {inputs[`weight`]} </div>
+                <div>이름 : {inputs[`name`]} 키 : {inputs[`height`]} 몸무게 : {inputs[`weight`]} </div>
 
-            <input type="button" onClick={handleClick} value="BMI 체크" /><br />
+                <input type="button" onClick={onClick} value="BMI 체크" /><br />
 
-        </div>
+            </div>
         </form>
+        <div> 결과 : {result}</div>
     </Layout>)
 }
-
-
-    /*const res = () => {
-        let name = document.getElementById('name').value
-        let height = document.getElementById('height').value
-        let weight = document.getElementById('weight').value
-        setName(name)
-        setHeight(height)
-        setWeight(weight)
-    }*/
